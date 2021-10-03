@@ -9,16 +9,15 @@ on:
   # allows to manually start the CI process
   workflow_dispatch:
 
-name: 🚀 Deploy website on push to main
 jobs:
   web-deploy:
-    name: 🎉 Deploy
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
+    - name: Get latest code
       uses: actions/checkout@v2
     
-    - name: 📂 Sync files
+    - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.1.0
       with:
         server: ftp.skinnerdev.com
