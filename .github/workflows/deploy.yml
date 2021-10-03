@@ -1,0 +1,28 @@
+name: Deploy Site to Prod
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+  # allows to manually start the CI process
+  workflow_dispatch:
+
+name: 🚀 Deploy website on push to main
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.1.0
+      with:
+        server: ftp.skinnerdev.com
+        username: ci@skinnerdev.com
+        password: ${{ secrets.ftp_password }}
+        server-dir: public_html/
+        log-level: verbose
