@@ -216,3 +216,118 @@
 .z-9999 {
   z-index: 9999;
 }
+
+/* 
+===============================================
+  THEME TOGGLE COMPONENT
+===============================================
+*/
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+}
+
+.theme-toggle-btn {
+  width: 60px;
+  height: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+  overflow: hidden;
+}
+
+.theme-toggle-btn:hover {
+  box-shadow: 0 6px 20px 0 rgba(102, 126, 234, 0.6);
+  transform: translateY(-2px);
+}
+
+.theme-toggle-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11, 206, 175, 0.3);
+}
+
+.theme-toggle-btn .toggle-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+.theme-toggle-btn .sun-icon {
+  left: 8px;
+  opacity: 1;
+}
+
+.theme-toggle-btn .moon-icon {
+  right: 8px;
+  opacity: 0.3;
+}
+
+[data-theme="dark"] .theme-toggle-btn {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+[data-theme="dark"] .theme-toggle-btn .sun-icon {
+  opacity: 0.3;
+}
+
+[data-theme="dark"] .theme-toggle-btn .moon-icon {
+  opacity: 1;
+}
+
+.theme-toggle-btn .toggle-slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .theme-toggle-btn .toggle-slider {
+  transform: translateX(30px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 15px;
+    right: 15px;
+  }
+  
+  .theme-toggle-btn {
+    width: 50px;
+    height: 26px;
+  }
+  
+  .theme-toggle-btn .toggle-slider {
+    width: 20px;
+    height: 20px;
+  }
+  
+  [data-theme="dark"] .theme-toggle-btn .toggle-slider {
+    transform: translateX(24px);
+  }
+  
+  .theme-toggle-btn .toggle-icon {
+    font-size: 12px;
+  }
+}
+
+/* Accessibility - keyboard focus */
+.theme-toggle-btn:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
