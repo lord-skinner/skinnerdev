@@ -1648,6 +1648,7 @@ li .fa {
   word-break: break-all;
   margin-bottom: 10px;
   margin-top: 10px;
+  text-align: center;
 }
 
 .mh-about-tag ul li {
@@ -1801,8 +1802,11 @@ li .fa {
   border-bottom-right-radius: 10px;
   background: #0bceaf;
   -webkit-transition: 3s all;
+  transition: 3s all;
   -webkit-animation-duration: 3s;
+  animation-duration: 3s;
   -webkit-animation-name: animationProgress;
+  animation-name: animationProgress;
 }
 
 .candidatos .parcial .partidas {
@@ -1830,7 +1834,7 @@ li .fa {
 
 /*
     ==============
-      EXPERIENCES
+      EXPERIENCE
     ==============
 */
 .mh-experince h3 {
@@ -1844,8 +1848,6 @@ li .fa {
   margin-bottom: 30px;
   padding: 26px 30px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .mh-experince .mh-education-deatils .mh-education-item:last-child {
@@ -1899,8 +1901,6 @@ li .fa {
   margin-bottom: 30px;
   padding: 20px 30px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .mh-work .mh-experience-deatils .mh-work-item:last-child {
@@ -2514,12 +2514,10 @@ li .fa {
     Mobile Nav
 ==============
 */
-.old {
-  /*==============
-                Overlay            
-      ================== */
-  /*  Navigation Menu */
-}
+/*==============
+              Overlay            
+    ================== */
+/*  Navigation Menu */
 
 .old .navbar-collapse {
   position: fixed;
@@ -3387,9 +3385,22 @@ li .fa {
        SERVICES
     ==============
 */
+.mh-service .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mh-service .row > [class*='col-'] {
+  display: flex;
+}
+
 .mh-service .mh-service-item {
   padding: 20px;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .mh-service .mh-service-item .fa {
