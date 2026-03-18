@@ -4,6 +4,8 @@
         "astro:": true,
     },
     "chat.tools.urls.autoApprove": {
+        "https://www.skinnerdev.com/": true,
+        "https://skinnerdev.com/": true,
         "https://www.linkedin.com/in/skinner1985": true,
     }
 }

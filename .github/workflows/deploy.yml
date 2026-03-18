@@ -19,6 +19,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAGES_CUSTOM_DOMAIN: skinnerdev.com
     steps:
       - name: Checkout
         uses: actions/checkout@v6

@@ -39,6 +39,7 @@ Workflow: `.github/workflows/deploy.yml`
 - Trigger: push to `main` (and manual `workflow_dispatch`)
 - Build: install dependencies and run `npm run build`
 - Publish: upload `dist/` and deploy with `actions/deploy-pages`
+- Custom domain: CI sets `GITHUB_PAGES_CUSTOM_DOMAIN=skinnerdev.com` so generated URLs use root paths (`/`) instead of `/<repo>/`
 
 Astro is configured to handle GitHub Pages project subpaths via dynamic `site` + `base` in `astro.config.mjs`.
 
