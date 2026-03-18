@@ -1,13 +1,23 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+
+const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+function readingTime(body: string | undefined): string {
+  if (!body) return "1 min read";
+  const words = body.trim().split(/\s+/).length;
+  return `${Math.max(1, Math.ceil(words / 200))} min read`;
+}
 ---
 
-<BaseLayout title="Blog | Matthew Skinner">
+<BaseLayout title="Blog | Matthew Skinner" description="Technical blog posts on data engineering, cloud architecture, and AI agent frameworks.">
+  <Header />
   <main class="section-shell py-20">
     <h1 class="text-4xl font-bold">Blog</h1>
 
@@ -18,17 +28,28 @@ const posts = (await getCollection("blog"))
         <ul class="mt-8 grid gap-4">
           {posts.map((post) => (
             <li class="card">
-              <a class="text-xl font-semibold hover:text-primary" href={`/blog/${post.id}/`}>
+              <a class="text-xl font-semibold hover:text-primary" href={withBase(`/blog/${post.id}/`)}>
                 {post.data.title}
               </a>
-              <p class="mt-2 text-sm text-muted">
-                {post.data.date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+              <p class="mt-2 flex items-center gap-3 text-sm text-muted">
+                <span>
+                  {post.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
+                <span>&middot;</span>
+                <span>{readingTime(post.body)}</span>
               </p>
               <p class="mt-3 text-muted">{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <div class="mt-3 flex flex-wrap gap-2">
+                  {post.data.tags.map((tag: string) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
             </li>
           ))}
         </ul>

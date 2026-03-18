@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "astro-patterns",
+  "owner": "vanman2024",
+  "repo": "ai-dev-marketplace",
+  "path": "plugins/website-builder/skills/astro-patterns",
+  "branch": "master",
+  "sha": "ff8547049e4153e312c70023c88eee459a135815",
+  "source": "manual"
+}

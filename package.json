@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/lord-skinner/skinnerdev#readme",
   "dependencies": {
+    "@astrojs/rss": "^4.0.17",
     "@astrojs/tailwind": "^6.0.2",
     "astro": "^5.18.1",
     "tailwindcss": "^3.4.19",

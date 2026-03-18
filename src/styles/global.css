@@ -105,6 +105,20 @@ body {
   @apply border-l-2 border-l-primary;
 }
 
+.prose pre {
+  background: var(--color-panel-soft) !important;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+}
+
+.prose code:not(pre code) {
+  background: var(--color-panel-soft);
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  padding: 0.15em 0.35em;
+  font-size: 0.875em;
+}
+
 @media (max-width: 767px) {
   .section-shell {
     @apply px-4;
