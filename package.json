@@ -1,0 +1,33 @@
+{
+  "name": "skinnerdev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "![Alt](https://repobeats.axiom.co/api/embed/882d9498f9a558250b00daac71bb076e0a385040.svg \"Repobeats analytics image\")",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lord-skinner/skinnerdev.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/lord-skinner/skinnerdev/issues"
+  },
+  "homepage": "https://github.com/lord-skinner/skinnerdev#readme",
+  "dependencies": {
+    "@astrojs/tailwind": "^6.0.2",
+    "astro": "^5.18.1",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19"
+  }
+}

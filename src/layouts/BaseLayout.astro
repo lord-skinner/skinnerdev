@@ -1,0 +1,47 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Matthew Skinner | CV" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark" data-theme="slate">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Matthew Skinner - Data Engineering and Cloud Architecture" />
+    <meta name="theme-color" content="#202026" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Matthew Skinner - Data Engineering and Cloud Architecture" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.skinnerdev.com" />
+    <link rel="icon" type="image/x-icon" href="/images/fedalon_logo.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <script is:inline>
+      const savedTheme = localStorage.getItem("theme");
+      const savedMode = localStorage.getItem("mode");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+      if (savedMode === "light") {
+        document.documentElement.classList.remove("dark");
+      } else {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <slot />
+  </body>
+</html>

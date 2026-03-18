@@ -1,0 +1,40 @@
+---
+import { type CollectionEntry, getCollection, getEntry, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const entry = await getEntry("blog", post.id);
+
+if (!entry) {
+  throw new Error(`Blog post not found: ${post.id}`);
+}
+
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${post.data.title} | Blog`}>
+  <main class="section-shell py-20">
+    <article class="mx-auto max-w-3xl">
+      <h1 class="text-4xl font-bold">{post.data.title}</h1>
+      <p class="mt-2 text-sm text-muted">
+        {post.data.date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </p>
+      <div class="prose mt-8 max-w-none prose-headings:text-text prose-p:text-muted prose-a:text-primary dark:prose-invert">
+        <Content />
+      </div>
+    </article>
+  </main>
+</BaseLayout>

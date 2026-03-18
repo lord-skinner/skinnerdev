@@ -1,0 +1,22 @@
+---
+interface Props {
+  name: "mail" | "phone" | "map" | "linkedin" | "github" | "code" | "file";
+  class?: string;
+}
+
+const { name, class: className = "h-5 w-5" } = Astro.props;
+
+const paths: Record<Props["name"], string> = {
+  mail: "M4 6h16v12H4z M4 7l8 6 8-6",
+  phone: "M7 5h3l1 3-2 2a13 13 0 0 0 6 6l2-2 3 1v3a2 2 0 0 1-2 2A15 15 0 0 1 5 7a2 2 0 0 1 2-2z",
+  map: "M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14 M15 6v14",
+  linkedin: "M4 8h4v12H4z M6 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4z M10 12c0-2 1-4 4-4s4 2 4 4v8h-4v-7c0-1-1-2-2-2s-2 1-2 2v7h-4z",
+  github: "M12 2a10 10 0 0 0-3 19c.5.1.7-.2.7-.5v-1.7c-3 .6-3.7-1.2-3.7-1.2-.5-1.2-1.2-1.5-1.2-1.5-1-.7.1-.7.1-.7 1 .1 1.6 1.1 1.6 1.1 1 .1 2 .9 2.5 1.5.9.1 1.8-.6 2.2-1.1-2.4-.3-4.9-1.2-4.9-5.3 0-1.2.4-2.2 1.1-3-.1-.3-.5-1.4.1-2.8 0 0 .9-.3 3 1.1a10 10 0 0 1 5.4 0c2.1-1.4 3-1.1 3-1.1.6 1.4.2 2.5.1 2.8.7.8 1.1 1.8 1.1 3 0 4.1-2.5 5-4.9 5.3.4.4.7 1 .7 2.1v3.1c0 .3.2.6.7.5A10 10 0 0 0 12 2z",
+  code: "M8 8 4 12l4 4 M16 8l4 4-4 4 M13 5l-2 14",
+  file: "M7 3h7l5 5v13H7z M14 3v6h5",
+};
+---
+
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class={className} aria-hidden="true">
+  <path d={paths[name]} />
+</svg>

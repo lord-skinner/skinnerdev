@@ -1,0 +1,173 @@
+---
+import Header from "@/components/Header.astro";
+import Icon from "@/components/Icon.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+  certifications,
+  education,
+  experience,
+  profile,
+  services,
+  skills,
+} from "@/data/profile";
+---
+
+<BaseLayout title="Matthew Skinner | CV">
+  <Header />
+
+  <main id="main-content">
+    <section id="mh-home" class="section-shell section-separator">
+      <div class="grid items-center gap-10 md:min-h-[70vh] md:grid-cols-2">
+        <div class="space-y-4" data-reveal>
+          <p class="inline-flex rounded-md border border-primary/60 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+            {profile.intro}
+          </p>
+          <h1 class="stack-title tracking-tight">{profile.name}</h1>
+          <p class="subtle-label">Data Engineering | Cloud Architecture | Development</p>
+          <ul class="space-y-2 text-muted">
+            <li class="flex items-center gap-2"><Icon name="mail" class="h-4 w-4 text-primary" /><a href={`mailto:${profile.email}`} class="hover:text-primary">{profile.email}</a></li>
+            <li class="flex items-center gap-2"><Icon name="phone" class="h-4 w-4 text-primary" /><a href="tel:+16156749177" class="hover:text-primary">{profile.phone}</a></li>
+            <li class="flex items-center gap-2"><Icon name="map" class="h-4 w-4 text-primary" />{profile.location}</li>
+          </ul>
+          <div class="flex flex-wrap gap-3 pt-1 text-sm text-muted">
+            <a class="social-link" href="mailto:mshskinner@gmail.com" aria-label="Email"><Icon name="mail" /></a>
+            <a class="social-link" href="https://www.linkedin.com/in/skinner1985/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" /></a>
+            <a class="social-link" href="https://github.com/lord-skinner" target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" /></a>
+            <a class="social-link" href="https://github.com/lord-skinner/skinnerdev" target="_blank" rel="noreferrer" aria-label="Code"><Icon name="code" /></a>
+            <a class="social-link" href="https://docs.google.com/document/d/1dcBDb1eLR8NI5QjyYTXdjbT31GhWDkf5JEzmwCtq8p4/edit?usp=sharing" target="_blank" rel="noreferrer" aria-label="CV"><Icon name="file" /></a>
+          </div>
+        </div>
+        <div class="mx-auto w-full max-w-[18rem] sm:max-w-sm" data-reveal>
+          <div class="card hero-frame p-4">
+            <img src="/images/hero.png" alt="Portrait of Matthew Skinner" class="h-auto w-full rounded-lg" width="720" height="720" loading="eager" fetchpriority="high" decoding="async" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mh-about" class="section-shell section-separator">
+      <div class="grid gap-8 md:grid-cols-2 md:gap-10">
+        <div class="card" data-reveal>
+          <img src="/images/ab-img.png" alt="Matthew Skinner and family" class="h-auto w-full rounded-lg" width="900" height="1200" loading="lazy" decoding="async" />
+        </div>
+        <div class="space-y-4" data-reveal>
+          <h2 class="text-3xl font-bold md:text-4xl">About Me</h2>
+          {
+            profile.about.map((paragraph) => (
+              <p class="lead-copy">{paragraph}</p>
+            ))
+          }
+        </div>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-2" data-reveal>
+        {
+          skills.map((skill) => (
+            <span class="tag">{skill}</span>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section-shell section-separator">
+      <h2 class="section-title" data-reveal>What I Do</h2>
+      <div class="grid gap-4 md:grid-cols-3 md:gap-6">
+        {
+          services.map((service) => (
+            <article class="card space-y-3" data-reveal>
+              <h3 class="text-xl font-semibold">{service.title}</h3>
+              <p class="lead-copy">{service.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="mh-experience" class="section-shell section-separator">
+      <div class="grid gap-6 md:grid-cols-2 md:gap-8">
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold" data-reveal>Education</h2>
+          {
+            education.map((item) => (
+              <article class="card resume-card space-y-1" data-reveal>
+                <h3 class="text-lg font-semibold">{item.title}</h3>
+                <p class="text-primary">{item.institution}</p>
+                <p class="text-sm text-muted">{item.period}</p>
+                <p class="lead-copy">{item.summary}</p>
+              </article>
+            ))
+          }
+        </div>
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold md:text-4xl" data-reveal>Work Experience</h2>
+          {
+            experience.map((item) => (
+              <article class="card resume-card space-y-1" data-reveal>
+                <h3 class="text-lg font-semibold">{item.role}</h3>
+                <p class="text-primary">{item.company}</p>
+                <p class="text-sm text-muted">{item.period}</p>
+                <p class="lead-copy">{item.summary}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell section-separator">
+      <h2 class="section-title" data-reveal>Continued Learning</h2>
+      <div class="grid gap-4 md:grid-cols-3 md:gap-6">
+        {
+          certifications.map((item) => (
+            <article class="card space-y-3" data-reveal>
+              <h3 class="text-lg font-semibold">{item.title}</h3>
+              <p class="lead-copy">{item.summary}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <footer id="mh-contact" class="section-shell py-14 md:py-16">
+      <h2 class="section-title" data-reveal>Contact Me</h2>
+      <div class="grid gap-4 md:grid-cols-3 md:gap-6">
+        <article class="card space-y-2" data-reveal>
+          <Icon name="map" class="h-5 w-5 text-primary" />
+          <h3 class="text-lg font-semibold">Location</h3>
+          <p class="lead-copy">Nashville, Tennessee</p>
+        </article>
+        <article class="card space-y-2" data-reveal>
+          <Icon name="mail" class="h-5 w-5 text-primary" />
+          <h3 class="text-lg font-semibold">Email</h3>
+          <a href={`mailto:${profile.email}`} class="text-muted hover:text-primary">{profile.email}</a>
+        </article>
+        <article class="card space-y-2" data-reveal>
+          <Icon name="phone" class="h-5 w-5 text-primary" />
+          <h3 class="text-lg font-semibold">Phone</h3>
+          <a href="tel:+16156749177" class="text-muted hover:text-primary">{profile.phone}</a>
+        </article>
+      </div>
+      <div class="mt-8 flex items-center justify-center gap-4 text-sm text-muted md:mt-10">
+        <a class="social-link" href="mailto:mshskinner@gmail.com" aria-label="Email"><Icon name="mail" /></a>
+        <a class="social-link" href="https://www.linkedin.com/in/skinner1985/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" /></a>
+        <a class="social-link" href="https://github.com/lord-skinner" target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" /></a>
+      </div>
+      <p class="mt-6 text-center text-sm text-muted">Copyright 2025-2026 Matthew Skinner</p>
+    </footer>
+  </main>
+</BaseLayout>
+
+<script>
+  const revealTargets = Array.from(document.querySelectorAll("[data-reveal]")) as HTMLElement[];
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        (entry.target as HTMLElement).setAttribute("data-reveal", "in");
+        revealObserver.unobserve(entry.target);
+      }
+    },
+    { threshold: 0.12 }
+  );
+
+  revealTargets.forEach((el) => revealObserver.observe(el));
+</script>

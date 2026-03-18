@@ -1,0 +1,85 @@
+---
+import ThemePicker from "./ThemePicker.astro";
+
+const navItems = [
+  { href: "#mh-home", label: "Home" },
+  { href: "#mh-about", label: "About" },
+  { href: "#mh-experience", label: "Experience" },
+  { href: "#mh-contact", label: "Contact" },
+  { href: "/blog", label: "Blog" },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur">
+  <div class="section-shell flex h-16 items-center justify-between gap-4 md:h-20">
+    <a href="#mh-home" class="inline-flex items-center gap-2 text-base font-bold tracking-wide text-primary">
+      <img src="/images/fedalon_logo.ico" alt="Matthew Skinner logo" class="h-7 w-7 rounded-sm" loading="eager" decoding="async" />
+    </a>
+
+    <button
+      id="mobile-nav-toggle"
+      class="rounded-md border border-border bg-panel px-4 py-2 text-sm font-medium text-text lg:hidden"
+      type="button"
+      aria-controls="site-nav"
+      aria-expanded="false"
+    >
+      Menu
+    </button>
+
+    <nav id="site-nav" class="hidden items-center gap-6 lg:flex">
+      {
+        navItems.map((item) => (
+          <a class="nav-link" href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+
+    <div class="hidden lg:block">
+      <ThemePicker />
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="section-shell hidden pb-4 lg:hidden">
+    <nav class="flex flex-col gap-2 rounded-lg border border-border bg-panel p-4">
+      {
+        navItems.map((item) => (
+          <a class="nav-link rounded-md px-2 py-2 text-base" href={item.href}>{item.label}</a>
+        ))
+      }
+      <ThemePicker />
+    </nav>
+  </div>
+</header>
+
+<script>
+  const mobileButton = document.querySelector("#mobile-nav-toggle") as HTMLButtonElement | null;
+  const mobileNav = document.querySelector("#mobile-nav") as HTMLElement | null;
+  const navLinks = Array.from(document.querySelectorAll("a.nav-link[href^='#']")) as HTMLAnchorElement[];
+  const sectionIds = navLinks.map((link) => link.getAttribute("href")?.replace("#", "")).filter(Boolean) as string[];
+  const sections = sectionIds
+    .map((id) => document.getElementById(id))
+    .filter(Boolean) as HTMLElement[];
+
+  mobileButton?.addEventListener("click", () => {
+    if (!mobileNav) return;
+    const isOpen = !mobileNav.classList.contains("hidden");
+    mobileNav.classList.toggle("hidden", isOpen);
+    mobileButton.setAttribute("aria-expanded", String(!isOpen));
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const id = entry.target.getAttribute("id");
+        navLinks.forEach((link) => {
+          const isActive = link.getAttribute("href") === `#${id}`;
+          link.classList.toggle("active", isActive);
+        });
+      }
+    },
+    { threshold: 0.55 }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+</script>
