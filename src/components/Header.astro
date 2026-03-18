@@ -1,19 +1,22 @@
 ---
 import ThemePicker from "./ThemePicker.astro";
+import logoIco from "../assets/images/fedalon_logo.ico?url";
+
+const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
 const navItems = [
   { href: "#mh-home", label: "Home" },
   { href: "#mh-about", label: "About" },
   { href: "#mh-experience", label: "Experience" },
   { href: "#mh-contact", label: "Contact" },
-  { href: "/blog", label: "Blog" },
+  { href: withBase("/blog"), label: "Blog" },
 ];
 ---
 
 <header class="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur">
   <div class="section-shell flex h-16 items-center justify-between gap-4 md:h-20">
     <a href="#mh-home" class="inline-flex items-center gap-2 text-base font-bold tracking-wide text-primary">
-      <img src="/images/fedalon_logo.ico" alt="Matthew Skinner logo" class="h-7 w-7 rounded-sm" loading="eager" decoding="async" />
+      <img src={logoIco} alt="Matthew Skinner logo" class="h-7 w-7 rounded-sm" loading="eager" decoding="async" />
     </a>
 
     <button

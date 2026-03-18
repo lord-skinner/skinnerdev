@@ -1,0 +1,9 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "npm:": true,
+        "astro:": true,
+    },
+    "chat.tools.urls.autoApprove": {
+        "https://www.linkedin.com/in/skinner1985": true,
+    }
+}

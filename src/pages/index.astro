@@ -2,6 +2,9 @@
 import Header from "@/components/Header.astro";
 import Icon from "@/components/Icon.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import aboutImage from "../assets/images/ab-img.png?url";
+import resumePdf from "../assets/files/mss.pdf?url";
+import heroImage from "../assets/images/hero.png?url";
 import {
   certifications,
   education,
@@ -34,12 +37,12 @@ import {
             <a class="social-link" href="https://www.linkedin.com/in/skinner1985/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" /></a>
             <a class="social-link" href="https://github.com/lord-skinner" target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" /></a>
             <a class="social-link" href="https://github.com/lord-skinner/skinnerdev" target="_blank" rel="noreferrer" aria-label="Code"><Icon name="code" /></a>
-            <a class="social-link" href="https://docs.google.com/document/d/1dcBDb1eLR8NI5QjyYTXdjbT31GhWDkf5JEzmwCtq8p4/edit?usp=sharing" target="_blank" rel="noreferrer" aria-label="CV"><Icon name="file" /></a>
+            <a class="social-link" href={resumePdf} target="_blank" rel="noopener" aria-label="CV"><Icon name="file" /></a>
           </div>
         </div>
         <div class="mx-auto w-full max-w-[18rem] sm:max-w-sm" data-reveal>
           <div class="card hero-frame p-4">
-            <img src="/images/hero.png" alt="Portrait of Matthew Skinner" class="h-auto w-full rounded-lg" width="720" height="720" loading="eager" fetchpriority="high" decoding="async" />
+            <img src={heroImage} alt="Portrait of Matthew Skinner" class="h-auto w-full rounded-lg" width="720" height="720" loading="eager" fetchpriority="high" decoding="async" />
           </div>
         </div>
       </div>
@@ -48,7 +51,7 @@ import {
     <section id="mh-about" class="section-shell section-separator">
       <div class="grid gap-8 md:grid-cols-2 md:gap-10">
         <div class="card" data-reveal>
-          <img src="/images/ab-img.png" alt="Matthew Skinner and family" class="h-auto w-full rounded-lg" width="900" height="1200" loading="lazy" decoding="async" />
+          <img src={aboutImage} alt="Matthew Skinner and family" class="h-auto w-full rounded-lg" width="900" height="1200" loading="lazy" decoding="async" />
         </div>
         <div class="space-y-4" data-reveal>
           <h2 class="text-3xl font-bold md:text-4xl">About Me</h2>

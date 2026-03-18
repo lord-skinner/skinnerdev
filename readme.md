@@ -10,6 +10,15 @@ This project has been migrated to an Astro + TypeScript + Tailwind foundation wh
 - Tailwind CSS
 - Astro Content Collections (blog-ready)
 
+## Content + Assets
+- App source lives in `src/`
+- Static/media assets used by pages/components are imported from `src/assets/`
+- Current in-use assets:
+	- `src/assets/images/`
+	- `src/assets/files/mss.pdf`
+
+This project no longer relies on root-level `images/` or `files/` folders.
+
 ## Local Development
 ```bash
 npm install
@@ -24,7 +33,14 @@ npm run build
 The build output is generated in `dist/`.
 
 ## Deployment
-GitHub Actions now builds the site first and deploys the generated `dist/` artifacts via FTP.
+Deployment is handled by GitHub Actions with GitHub Pages.
+
+Workflow: `.github/workflows/deploy.yml`
+- Trigger: push to `main` (and manual `workflow_dispatch`)
+- Build: install dependencies and run `npm run build`
+- Publish: upload `dist/` and deploy with `actions/deploy-pages`
+
+Astro is configured to handle GitHub Pages project subpaths via dynamic `site` + `base` in `astro.config.mjs`.
 
 
 ## GitHub Stats

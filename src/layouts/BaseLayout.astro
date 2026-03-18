@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import faviconIco from "../assets/images/fedalon_logo.ico?url";
 
 interface Props {
   title?: string;
@@ -19,7 +20,7 @@ const { title = "Matthew Skinner | CV" } = Astro.props;
     <meta property="og:description" content="Matthew Skinner - Data Engineering and Cloud Architecture" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.skinnerdev.com" />
-    <link rel="icon" type="image/x-icon" href="/images/fedalon_logo.ico" />
+    <link rel="icon" type="image/x-icon" href={faviconIco} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
