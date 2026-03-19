@@ -15,7 +15,7 @@ draft: false
 
 Most LLM demos end at a single prompt-response loop. Production agents need more: persistent memory across sessions, access to external tools, real-time streaming, and enough structure to debug when things go wrong.
 
-This post is Part 1 of a series on an agent framework I built to solve those problems. The stack is Python-native — FastAPI for the HTTP layer, PydanticAI for agent orchestration, FastMCP for tool aggregation, and Elasticsearch for the memory backbone. This first installment covers the overall architecture, then goes deep on how Elasticsearch powers a quad-core memory system with hybrid search.
+This post is Part 1 of a series on an agent framework our team built to solve those problems. The stack is Python-native — FastAPI for the HTTP layer, PydanticAI for agent orchestration, FastMCP for tool aggregation, and Elasticsearch for the memory backbone. This first installment covers the overall architecture, then goes deep on how Elasticsearch powers a quad-core memory system with hybrid search.
 
 ## Architecture at a Glance
 
@@ -81,7 +81,7 @@ A key design decision: the client specifies which tools the agent can use per re
 
 Most agent memory implementations bolt on a vector database and call it done. That works for basic retrieval, but agents need more: time-ordered conversation history, long-term knowledge with importance scoring, tool usage patterns for learning, and durable execution state for resumable workflows.
 
-I work at Elastic, so I have a natural bias here — but the technical argument is strong. Elasticsearch handles full-text search, dense vector search, sparse vector search, and reranking in a single engine. Add data streams for time-series patterns and ILM for automatic retention management, and you get a memory backend that covers every access pattern an agent needs without stitching together three or four separate systems.
+I work at Elastic, so I have a natural bias here — but the technical argument is strong. Elasticsearch handles text search, vector search, and automatic embedding generation in a single engine. Add data streams for time-series patterns and ILM for automatic retention management, and you get a memory backend that covers every access pattern an agent needs without stitching together three or four separate systems.
 
 ### The Quad-Core Memory Model
 
@@ -161,11 +161,11 @@ class MemoryManager:
 
 Episodic retrieval has two modes: when a search query is present, it runs hybrid search to find the most relevant past conversation turns. When no query is provided, it falls back to a simple chronological fetch — the last N turns for context. Semantic retrieval always uses hybrid search, since relevance is the only access pattern that makes sense for long-term knowledge.
 
-### Hybrid Search: Dense + Sparse + Reranking
+### Hybrid Search: RRF with Match + Semantic Queries
 
 Here is where Elasticsearch's capabilities really converge. Pure vector search misses keyword-critical queries (think error codes, specific tool names, exact phrases). Pure text search misses semantic similarity. You need both — and you need a way to merge the results intelligently.
 
-The `_search_memory_index` method builds a hybrid retrieval query using Elasticsearch's Reciprocal Rank Fusion (RRF) retriever:
+The `_search_memory_index` method builds a hybrid retrieval query using Elasticsearch's Reciprocal Rank Fusion (RRF) retriever. The `semantic` query used here is the legacy query type for `semantic_text` fields — newer Elasticsearch versions recommend using `match` directly, which auto-routes to the appropriate vector search on `semantic_text` fields:
 
 ```python
 body = {
@@ -211,35 +211,35 @@ body = {
 flowchart TD
     Q["Search Query"]
 
-    Q --> BM25["BM25 Retriever\n(Full-text match)"]
-    Q --> SEM["Semantic Retriever\n(Dense vectors via Jina v3)"]
+    Q --> STD["Standard Retriever\n(match query)"]
+    Q --> SEM["Semantic Retriever\n(semantic query)"]
 
-    BM25 --> RRF["Reciprocal Rank Fusion\nrank_constant = 60"]
+    STD --> RRF["Reciprocal Rank Fusion\nrank_constant = 60"]
     SEM --> RRF
 
-    RRF -->|"top_k × 3 candidates"| RR["Jina Reranker v3"]
+    RRF -->|"top_k × 3 candidates"| RR["Client-Side Reranking\ntime-decay + importance"]
     RR -->|"top_k results"| OUT["Ranked Memories"]
 ```
 
 Here is what is happening:
 
-1. **Two parallel retrievers** fire against the same index. The first is a standard BM25 `match` query — classic full-text search. The second is a `semantic` query that hits the dense vector embeddings on the same field.
+1. **Two parallel retrievers** fire against the same index. The first is a `standard` retriever with a `match` query. The second is a `standard` retriever with a `semantic` query that leverages the field's vector embeddings. Both target the same `semantic_text` field.
 
 2. **Reciprocal Rank Fusion** merges both result lists. RRF does not rely on raw scores (which are not comparable across retrieval methods). Instead, it uses rank positions: a document that appears high in both lists gets boosted. The `rank_constant` of 60 controls how much weight goes to lower-ranked results — higher values spread the influence more evenly.
 
-3. **Oversample then rerank.** The query fetches `top_k * 3` results to give the reranker a richer candidate set. A final reranking pass with Jina Reranker v3 re-scores the merged results for precision.
+3. **Oversample then rerank.** The query fetches `top_k * 3` results to give the reranking step a richer candidate set. A client-side scoring pass then re-ranks results using time-decay (recent memories score higher) and importance weighting (`log1p(importance_score)`), producing the final ranked list.
 
-The key enabler here is Elasticsearch's `semantic_text` field type. When you index a document, the field automatically chunks the text and generates both dense embeddings (via Jina Embeddings v3) and sparse embeddings (via ELSER-2) at ingest time. You do not need a separate embedding pipeline or vector database — the same field supports BM25, dense vector, and sparse vector queries out of the box.
+The key enabler here is Elasticsearch's `semantic_text` field type. When you index a document, the field automatically chunks the text and generates embeddings via a configured inference endpoint — dense vectors (via Jina Embeddings v3) or learned sparse representations (via ELSER v2), depending on the endpoint. You do not need a separate embedding pipeline or vector database. The `semantic` query and `match` query on a `semantic_text` field both leverage these embeddings, giving the RRF retriever two complementary scoring strategies to merge.
 
 The inference endpoints are configured once:
 
 ```
-TEXT_EMBEDDING=.jina-embeddings-v3      # Dense embeddings
-SPARSE_EMBEDDING=.elser-2-elastic       # Sparse embeddings (ELSER-2)
-RERANK=.jina-reranker-v3               # Reranking model
+TEXT_EMBEDDING=.jina-embeddings-v3      # Dense embeddings (deployment-specific ID)
+SPARSE_EMBEDDING=.elser-2-elastic       # Sparse embeddings, ELSER v2 (deployment-specific ID)
+RERANK=.jina-reranker-v3               # Configured for future use
 ```
 
-If the hybrid query fails (model not deployed, index misconfigured), the system gracefully falls back to a simple BM25 text search. Memory should never block agent execution.
+If the hybrid query fails (model not deployed, index misconfigured), the system catches the error and falls back to a plain `match` query for text search. Memory should never block agent execution.
 
 ### The recall_memory Tool
 
