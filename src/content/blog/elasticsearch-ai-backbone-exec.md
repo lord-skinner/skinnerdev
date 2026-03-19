@@ -43,9 +43,9 @@ AgentEngine uses Elasticsearch for four distinct memory functions. Each one woul
 
 ### Why One Engine Works
 
-The technical reason this consolidation is possible: Elasticsearch's `semantic_text` field type. When you index a document, this field automatically chunks the text and generates both dense vector embeddings (via models like Jina v3) and sparse embeddings (via ELSER-2) at ingest time. You write a plain text string. Elasticsearch produces the vectors. No external embedding pipeline. No batch ETL job syncing vectors to a separate store.
+The technical reason this consolidation is possible: Elasticsearch's `semantic_text` field type. When you index a document, this field automatically chunks the text and generates embeddings via a configured inference endpoint — dense vectors (e.g., Jina Embeddings v3) or learned sparse representations (ELSER v2), depending on the endpoint. You write a plain text string. Elasticsearch produces the vectors. No external embedding pipeline. No batch ETL job syncing vectors to a separate store.
 
-That same field then supports three query types: BM25 full-text search, dense vector search, and sparse vector search. Hybrid retrieval merges results using Reciprocal Rank Fusion (RRF) — a rank-based merge that doesn't require normalizing scores across retrieval methods. You oversample candidates, then pass through a reranking model for precision.
+Hybrid retrieval works by combining multiple retrieval strategies using Reciprocal Rank Fusion (RRF) — a rank-based merge that doesn't require normalizing scores across retrieval methods. In AgentEngine, the RRF retriever runs a `match` query and a `semantic` query against the same field in parallel, then merges results by rank position. Oversampling (fetching 3× the target result count) gives the downstream scoring step a richer candidate set.
 
 This matters because AI memory access patterns are inherently hybrid. Sometimes you need an exact keyword match ("find the conversation where we discussed the Kafka migration"). Sometimes you need semantic similarity ("what do we know about data pipeline failures?"). Most of the time you need both, weighted intelligently. RRF handles this without any manual score tuning.
 
@@ -65,9 +65,9 @@ Most teams I've talked to who are evaluating vector databases are solving the wr
 
 Pure vector search misses keyword-critical queries. If an agent needs to find a conversation where a specific API endpoint was mentioned, dense vector similarity won't surface it reliably. Pure text search misses semantic connections — "data pipeline failures" should match "ETL job crashes" even though the words don't overlap.
 
-Elasticsearch runs both retrieval strategies against the same field, in the same query, with RRF handling the merge. The `rank_constant` parameter controls how aggressively top-ranked results dominate vs. how much weight spreads to lower-ranked candidates. A reranking model (Jina Reranker v3 in our case) re-scores the merged list for final precision.
+Elasticsearch runs both retrieval strategies against the same field, in the same query, with RRF handling the merge. The `rank_constant` parameter controls how aggressively top-ranked results dominate vs. how much weight spreads to lower-ranked candidates. After RRF, a client-side scoring pass re-ranks results using time-decay and importance weighting — recent, high-importance memories surface first.
 
-The fallback behavior matters too: if the ML model backing semantic search isn't deployed or a cluster degrades, the system automatically falls back to BM25 text search. Memory should never block agent execution. This kind of graceful degradation is significantly harder to build when your vector search and text search live in separate systems.
+The fallback behavior matters too: if the inference model backing semantic search isn't deployed or a cluster degrades, the system catches the error and falls back to a plain `match` query. Memory should never block agent execution. This kind of graceful degradation is significantly harder to build when your vector search and text search live in separate systems.
 
 ## What This Means for Your AI Stack
 

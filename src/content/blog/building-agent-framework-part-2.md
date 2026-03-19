@@ -10,7 +10,7 @@ tags:
   - architecture
 series: "agent-framework"
 seriesPart: 2
-draft: true
+draft: false
 ---
 
 In [Part 1](/blog/building-agent-framework-part-1/) I covered the overall architecture of the agent framework and went deep on how Elasticsearch powers a quad-core memory system with hybrid search. This post focuses on the other half of the system: **MaaS — MCP as a Service**.
