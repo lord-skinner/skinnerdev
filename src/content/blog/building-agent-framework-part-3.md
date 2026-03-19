@@ -10,7 +10,7 @@ tags:
   - production
 series: "agent-framework"
 seriesPart: 3
-draft: false
+draft: true
 ---
 
 [Part 1](/blog/building-agent-framework-part-1/) covered the architecture and Elasticsearch-backed memory. [Part 2](/blog/building-agent-framework-part-2/) covered MaaS and tool aggregation. This final post covers the patterns that make the framework production-ready: privacy redaction, context budget management, structured logging, distributed tracing, and usage metrics.

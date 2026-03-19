@@ -7,7 +7,7 @@ tags:
   - ai-strategy
   - enterprise
   - architecture
-draft: false
+draft: true
 ---
 
 Enterprise AI has a dirty secret: the model is the easy part. The hard part is everything around it — memory, retrieval, state management, and the connective tissue that turns a chatbot into something people actually rely on at work.
