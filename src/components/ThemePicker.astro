@@ -28,7 +28,7 @@
   const modeToggle = document.querySelector("#mode-toggle") as HTMLButtonElement | null;
 
   if (picker) {
-    const currentTheme = document.documentElement.getAttribute("data-theme") ?? "slate";
+    const currentTheme = document.documentElement.getAttribute("data-theme") ?? "blue-munsell";
     picker.value = currentTheme;
 
     picker.addEventListener("change", (event) => {
