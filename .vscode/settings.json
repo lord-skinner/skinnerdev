@@ -8,7 +8,7 @@
         "https://skinnerdev.com/": true,
         "https://www.linkedin.com/in/skinner1985": true,
         "https://elastic.co/*": true,
-        "https://www.elastic.co/*": true,
+        "https://www.elastic.co/**": true,
         "https://github.com/*": true,
         "https://raw.githubusercontent.com/*": true,
     }
