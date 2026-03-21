@@ -1,7 +1,7 @@
 ---
 title: "Building an Agent Framework: Production Patterns"
 description: "Part 3 of the series — privacy-preserving history processors, context budget management, structured logging, OpenTelemetry tracing, and usage metrics."
-date: 2026-03-18
+date: 2026-03-31
 tags:
   - agents
   - observability

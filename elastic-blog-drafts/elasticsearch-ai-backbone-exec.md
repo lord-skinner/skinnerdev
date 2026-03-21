@@ -1,13 +1,13 @@
 ---
 title: "Why Elasticsearch Is the Missing Piece in Your AI Stack"
 description: "Most enterprise AI initiatives stitch together 4-5 systems for memory, search, and state. Elasticsearch handles all of it in one engine — and the architecture is simpler than you think."
-date: 2026-03-18
+date: 2026-03-23
 tags:
   - elasticsearch
   - ai-strategy
   - enterprise
   - architecture
-draft: true
+draft: false
 ---
 
 Enterprise AI has a dirty secret: the model is the easy part. The hard part is everything around it — memory, retrieval, state management, and the connective tissue that turns a chatbot into something people actually rely on at work.
@@ -29,6 +29,8 @@ Here's why. A production AI system needs to:
 
 These aren't model problems. They're data infrastructure problems. And they map directly to capabilities that Elasticsearch has shipped for years, just applied to a new use case.
 
+![The AI memory challenge](./memory_challenge.png)
+
 ## The Architecture: Four Memory Types, One Engine
 
 AgentEngine uses Elasticsearch for four distinct memory functions. Each one would traditionally require a separate system.
@@ -40,6 +42,8 @@ AgentEngine uses Elasticsearch for four distinct memory functions. Each one woul
 **Procedural Memory** — records of which tools the agent used, for what task type, whether it succeeded, and any correction notes. This gives the agent a learning loop: facing a similar task next time, it recalls what worked. This replaces an analytics or logging system with structured querying.
 
 **Workflow State** — serialized execution snapshots from PydanticAI's graph API. When the agent hits a checkpoint, the full graph state persists to Elasticsearch. Users disconnect and reconnect; the agent resumes from the exact step. This replaces a state backend like Postgres or DynamoDB.
+
+![The Architecture: Four Memory Types, One Engine](./arch.png)
 
 ### Why One Engine Works
 
@@ -58,6 +62,8 @@ Every system in your AI stack is a system that needs monitoring, alerting, secur
 When AgentEngine has a memory issue, we look at one system. One set of indices. One query language. One security model. One team that knows how it works. At 3 AM when something breaks, this is the difference between a 15-minute fix and a multi-team incident.
 
 For context: we manage $1.3M/yr in cloud spend across three CSPs. Every system we can eliminate from the stack reduces not just cost but cognitive load on the engineering team. When your AI initiative already requires model evaluation, prompt engineering, safety guardrails, tool orchestration, and change management — the last thing you need is a Rube Goldberg data layer underneath it.
+
+![What Changes Operationally](./impact.png)
 
 ## The Hybrid Search Advantage
 
