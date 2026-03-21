@@ -15,6 +15,10 @@ draft: false
 
 Most LLM demos end at a single prompt-response loop. Production agents need more: persistent memory across sessions, access to external tools, real-time streaming, and enough structure to debug when things go wrong.
 
+Push that demo into production and the cracks show fast. The agent forgets what the user said three turns ago — or across sessions entirely — because context windows are finite and nothing persists beyond them. Without a record of what worked before, it repeats the same bad tool calls on the same class of task. Every new integration (dbt, GitHub, Atlan) means more auth logic while more failure modes compound silently inside the agent process. And when something breaks at 3 AM, there are no traces, no logs, no way to replay what happened.
+
+These are not edge cases. Performance quality is the single biggest barrier teams cite when moving agents to production — ahead of cost, ahead of safety. Observability is the most requested control. If your team has a working prototype and is now hitting these walls trying to ship for real users, this series is the blueprint.
+
 This post is Part 1 of a series on an agent framework our team built to solve those problems. The stack is Python-native — FastAPI for the HTTP layer, PydanticAI for agent orchestration, FastMCP for tool aggregation, and Elasticsearch for the memory backbone. This first installment covers the overall architecture, then goes deep on how Elasticsearch powers a quad-core memory system with hybrid search.
 
 ## Architecture at a Glance
