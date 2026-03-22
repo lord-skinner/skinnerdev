@@ -14,11 +14,11 @@ Enterprise AI has a dirty secret: the model is the easy part. The hard part is e
 
 Most teams solve this by bolting together a vector database for embeddings, a document store for context, a cache layer for sessions, and maybe a time-series database for telemetry. That's four systems to operate, four failure modes to debug, four vendor contracts to manage, and four integration seams where data silently gets lost or stale.
 
-Our team at Elastic has now shipped two AI systems that use Elasticsearch as the sole data backend — ElasticGPT, an internal chatbot with 2,100+ users, and AgentEngine, an API-driven autonomous agent framework. I helped design the data architecture for both. The bet was the same each time: one engine for memory, retrieval, and state. No Redis. No Pinecone. No Postgres sidecar.
+Our team at Elastic has now shipped two AI systems that use Elasticsearch as the sole data backend — ElasticGPT, an internal chatbot with 2,100+ users, and AgentEngine, an API-driven autonomous agent framework. The bet was the same each time: one engine for memory, retrieval, and state. No Redis. No Pinecone. No Postgres sidecar. Just Elasticsearch.
 
 ## The Problem: AI Memory Is Harder Than AI Inference
 
-When the team built ElasticGPT — our internal chatbot with 125K+ chats and 400K+ interactions — model selection took about a week. The memory architecture took months. When we later built AgentEngine, a standalone framework for autonomous agent workflows, the same pattern held: the hard problems were all about data infrastructure.
+When the team built ElasticGPT — our internal chatbot with 125K+ chats and 400K+ interactions — model selection took about a week. The retrieval architecture took months. When we later built AgentEngine, a standalone framework for autonomous agent workflows, the same pattern held: the hard problems were all about data infrastructure.
 
 Here's why. A production AI system needs to:
 
