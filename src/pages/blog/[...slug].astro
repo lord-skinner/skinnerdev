@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection, getEntry, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
+import Giscus from "@/components/Giscus.astro";
 
 const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
@@ -87,6 +88,8 @@ if (post.data.series) {
           )}
         </nav>
       )}
+
+      <Giscus />
     </article>
   </main>
 

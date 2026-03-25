@@ -47,6 +47,32 @@ Workflow: `.github/workflows/deploy.yml`
 
 Astro is configured to handle GitHub Pages project subpaths via dynamic `site` + `base` in `astro.config.mjs`.
 
+## Blog Comments (giscus)
+Comments are now integrated on individual blog post pages via giscus.
+
+### Required Setup
+1. Enable GitHub Discussions for the repository.
+2. Install the giscus GitHub App.
+3. Create a Discussions category for blog comments.
+4. Get configuration values from https://giscus.app/.
+
+### Environment Variables
+Set these public variables before running/building:
+
+```bash
+PUBLIC_GISCUS_REPO=owner/repo
+PUBLIC_GISCUS_REPO_ID=R_kgDOExample
+PUBLIC_GISCUS_CATEGORY=Blog Comments
+PUBLIC_GISCUS_CATEGORY_ID=DIC_kwDOExample4CjA
+```
+
+For GitHub Pages builds, add the same keys as Repository Variables in GitHub:
+Settings -> Secrets and variables -> Actions -> Variables.
+
+The deploy workflow reads them at build time from `.github/workflows/deploy.yml`.
+
+If these are not set, the blog post page will show a non-breaking "not configured" comment message.
+
 
 ## GitHub Stats
 ![Alt](https://repobeats.axiom.co/api/embed/882d9498f9a558250b00daac71bb076e0a385040.svg "Repobeats analytics image")
