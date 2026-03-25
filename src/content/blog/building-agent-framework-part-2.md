@@ -1,7 +1,7 @@
 ---
 title: "Building an Agent Framework: MaaS — MCP as a Service"
 description: "Part 2 — FastMCP multi-server proxy, SkillsDirectoryProvider for git-backed skills, RBAC via tag/filter transforms, helper tools, and transports."
-date: 2026-03-18
+date: 2026-03-24
 tags:
   - agents
   - pydantic-ai
