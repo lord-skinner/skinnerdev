@@ -5,7 +5,8 @@
   "description": "![Alt](https://repobeats.axiom.co/api/embed/882d9498f9a558250b00daac71bb076e0a385040.svg \"Repobeats analytics image\")",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build:resume": "bash scripts/build-resume-pdf.sh",
+    "build": "npm run build:resume && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -33,5 +34,8 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19"
+  },
+  "overrides": {
+    "fast-xml-parser": "5.5.7"
   }
 }

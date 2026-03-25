@@ -1,7 +1,7 @@
 ---
 title: "Building an Agent Framework: Production Patterns"
 description: "Part 3 of the series — privacy-preserving history processors, context budget management, structured logging, OpenTelemetry tracing, and usage metrics."
-date: 2026-03-18
+date: 2026-03-31
 tags:
   - agents
   - observability
@@ -339,7 +339,7 @@ Because usage documents land in Elasticsearch with `@timestamp`, they slot into 
 A recurring pattern across the framework: **optional subsystems never block core execution**.
 
 - If Elasticsearch is unreachable, memory operations log a warning and return empty results. The agent executes without memory context.
-- If the hybrid search query fails (inference model not deployed), it falls back to plain BM25 text search.
+- If the hybrid search query fails (inference model not deployed), it falls back to a plain `match` query for text search.
 - If summarization fails in the context budget processor, it falls back to character truncation.
 - If the OTLP endpoint is not configured, tracing becomes a no-op.
 - If usage metric indexing fails, it fails silently in a background task.

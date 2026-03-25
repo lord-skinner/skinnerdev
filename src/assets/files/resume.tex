@@ -1,0 +1,131 @@
+%-------------------------
+% Resume — Matthew Skinner
+% Compile with: xelatex resume.tex
+%-------------------------
+\documentclass[letterpaper,18pt]{extarticle}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[margin=0.4in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{setspace}
+
+\definecolor{sectioncolor}{RGB}{20,45,75}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=sectioncolor,
+  urlcolor=sectioncolor,
+  pdfborder={0 0 0}
+}
+
+\setstretch{1.0}
+\pagestyle{empty}
+\setlist[itemize]{itemsep=0pt, parsep=0pt, topsep=1pt, leftmargin=18pt}
+\titleformat{\section}{\Large\bfseries\color{sectioncolor}}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{6pt}{3pt}
+
+\begin{document}
+
+%---------- HEADER ----------
+\begin{center}
+  {\LARGE\bfseries Matthew Skinner} \\[4pt]
+  {\normalsize AI Strategy \& Engineering Leadership} \\[3pt]
+  Nashville, TN \quad
+  \href{mailto:mshskinner@gmail.com}{mshskinner@gmail.com} \quad
+  (615) 674-9177 \quad
+  \href{https://www.linkedin.com/in/skinner1985/}{LinkedIn} \quad
+  \href{https://github.com/lord-skinner}{GitHub} \quad
+  \href{https://www.skinnerdev.com}{skinnerdev.com}
+\end{center}
+
+\vspace{4pt}
+\begin{minipage}{\textwidth}
+\small
+\textbf{Summary:} Engineering leader with 20+ years delivering software and data systems and 8+ years leading people and technical programs---from a 10-person dev company and 1,000+ person operations scope to cloud/data leadership at a public SaaS company. Hands-on with enterprise generative AI in production: architecture, retrieval and orchestration patterns, evaluation, and guardrails for safe, predictable behavior. Modernizing the data platform (Apache Iceberg lakehouse), shipping ML into finance and GTM (BigQuery ML), and owning a \$1.3M/yr cloud and vendor portfolio.
+\end{minipage}
+\vspace{8pt}
+
+%---------- EXPERIENCE ----------
+\section{Experience}
+
+\textbf{Senior Manager, Data Engineering \& Architecture} \hfill May 2022 -- Present \\
+\textit{Elastic, Inc.}
+\begin{itemize}
+  \item Lead Cloud Engineering and Data Engineering teams (5 reports, cross-functional); partner with product, security, and business stakeholders on enterprise AI and data initiatives
+  \item Helped design the software, data architecture, and deployment strategy for ElasticGPT --- internal AI assistant with 2,100+ users, 125K+ chats, 400K+ interactions, saving 63 hrs/employee/year (92\% DAU increase)
+  \item Introduced Apache Iceberg as the lakehouse foundation for analytics and ML; shipped ML into operations: AR cash forecasting and self-serve models for Sales and Marketing (BigQuery ML)
+  \item Implemented Spark, reducing data processing compute cost by \textasciitilde70\%; migrated NetSuite from 2,200 objects to 60, enabling SOX-compliant real-time financial reporting and AI-ready data
+  \item Led change management for AI, data analytics, and ML adoption across departments
+\end{itemize}
+
+\textbf{Data Analytics Architect} \hfill Apr 2021 -- May 2022 \\
+\textit{Pluralsight, Inc.}
+\begin{itemize}
+  \item Designed enterprise cloud architecture for insights, data engineering, data science, and ML teams
+  \item Migrated ML pipelines from batch SageMaker jobs to real-time Kafka-based prediction serving
+  \item Managed \$3.2M/yr cloud spend across AWS, SageMaker, and Snowflake
+\end{itemize}
+
+\textbf{Principal, Data \& Integration Architect} \hfill Feb 2020 -- Apr 2021 \\
+\textit{LP Building Solutions}
+\begin{itemize}
+  \item Migrated 29 on-prem manufacturing locations to Azure over 19 months at petabyte scale
+  \item Cut data processing time by 70\%, enabling real-time manufacturing defect detection
+  \item Resulting \textasciitilde2\% defect reduction per plant generated \$120M in additional annual revenue --- throughput equivalent of a 30th plant without building one
+  \item Built integration layer connecting ERP, supply chain, and logistics systems
+\end{itemize}
+
+\textbf{Principal, Business Intelligence Developer} \hfill Nov 2018 -- Feb 2020 \\
+\textit{LP Building Solutions}
+\begin{itemize}
+  \item Built data models and reporting for corporate finance, logistics, and supply chain operations across a \$4B revenue manufacturer
+\end{itemize}
+
+\textbf{Procurement Manager} \hfill 2016 -- Nov 2018 \\
+\textit{LP Building Solutions}
+\begin{itemize}
+  \item Managed \$250M/year in freight carrier contracts across North American logistics network
+\end{itemize}
+
+\textbf{Regional Manager} \hfill 2012 -- 2016 \\
+\textit{Western Express}
+\begin{itemize}
+  \item Managed freight operations across 37 of 48 operating states, accounting for \$10M of \$15M in weekly billed freight (67\% of company revenue)
+  \item Oversaw 25 managers and 1,000+ drivers serving Walmart, Target, Costco, Sam's Club, BJ's, and Campbell's
+  \item Reduced driver layover 4.6\% MoM, decreased deadhead 9\% YoY, improved delivery throughput 7.5\% for high-volume customers
+\end{itemize}
+
+\textbf{Owner} \hfill Aug 2002 -- Dec 2012 \\
+\textit{SkinnerDev.com}
+\begin{itemize}
+  \item Ran a web and mobile development shop for 10 years; 185 customers, \$3M annual revenue, team of 10
+  \item Shipped Android 2.2 and iOS 3 apps in 2010 with on-device receipt-photo-to-ERP expense parsing --- on-device OCR-style functionality years before it was enterprise-ready
+\end{itemize}
+
+%---------- SKILLS ----------
+\section{Technical Skills}
+
+\textbf{AI/ML:} Agentic AI, Generative AI, LLM Orchestration, RAG, LLM Evaluation, Reinforcement Learning, Model Fine-Tuning \& Hosting, Inference Optimization, AI Safety \& Guardrails, MLOps, Evaluation Pipelines \\
+\textbf{Cloud \& Infra:} Kubernetes, Envoy AI Gateway, Kubeflow, Crossplane, Terraform/IaC, GitOps, Azure/AWS/GCP \\
+\textbf{Data:} Elasticsearch, Kafka/Flink, Spark/Trino, Apache Iceberg, Data Architecture, Data Engineering Pipelines \\
+\textbf{Leadership:} Cross-Functional Team Leadership, AI Change Management, Business Process Analysis, Vendor Management, P\&L Ownership, SOX/GDPR/PCI Compliance
+
+%---------- EDUCATION ----------
+\section{Education}
+
+\textbf{Data Analytics \& Visualization Bootcamp} --- Vanderbilt University \hfill 2019--2020 \\
+\textbf{AAS, Business Administration \& Management} --- Volunteer State Community College \hfill 2006--2007
+
+%---------- CERTIFICATIONS & RECOGNITION ----------
+\section{Certifications \& Recognition}
+
+Microsoft Certified: Azure Fundamentals \quad|\quad Snowflake SnowPro Core \quad|\quad AWS Certified Cloud Practitioner \\
+2019 Nashville Technology Council Technologist of the Year Nominee \quad|\quad Speaker: Microsoft, Snowflake, dbt, GCP meetups
+
+\end{document}

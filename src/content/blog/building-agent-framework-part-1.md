@@ -1,7 +1,7 @@
 ---
 title: "Building an Agent Framework: Architecture & Elasticsearch-Backed Memory"
 description: "Part 1 of a series on building a production agent framework with PydanticAI, FastMCP, and Elasticsearch — covering the quad-core memory system and hybrid search."
-date: 2026-03-18
+date: 2026-03-17
 tags:
   - agents
   - elasticsearch

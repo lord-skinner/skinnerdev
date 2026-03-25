@@ -3,16 +3,20 @@ import Header from "@/components/Header.astro";
 import Icon from "@/components/Icon.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import aboutImage from "../assets/images/ab-img.png?url";
-import resumePdf from "../assets/files/mss.pdf?url";
 import heroImage from "../assets/images/hero.png?url";
 import {
-  certifications,
+  aiVision,
   education,
   experience,
+  leadershipPrinciples,
   profile,
+  recognition,
   services,
   skills,
+  technicalExpertise,
 } from "@/data/profile";
+
+const resumePdfHref = `${import.meta.env.BASE_URL}resume.pdf`;
 ---
 
 <BaseLayout title="Matthew Skinner | CV">
@@ -26,7 +30,7 @@ import {
             {profile.intro}
           </p>
           <h1 class="stack-title tracking-tight">{profile.name}</h1>
-          <p class="subtle-label">Data Engineering | Cloud Architecture | Development</p>
+          <p class="subtle-label">AI Strategy & Engineering Leadership</p>
           <ul class="space-y-2 text-muted">
             <li class="flex items-center gap-2"><Icon name="mail" class="h-4 w-4 text-primary" /><a href={`mailto:${profile.email}`} class="hover:text-primary">{profile.email}</a></li>
             <li class="flex items-center gap-2"><Icon name="phone" class="h-4 w-4 text-primary" /><a href="tel:+16156749177" class="hover:text-primary">{profile.phone}</a></li>
@@ -37,12 +41,12 @@ import {
             <a class="social-link" href="https://www.linkedin.com/in/skinner1985/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" /></a>
             <a class="social-link" href="https://github.com/lord-skinner" target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" /></a>
             <a class="social-link" href="https://github.com/lord-skinner/skinnerdev" target="_blank" rel="noreferrer" aria-label="Code"><Icon name="code" /></a>
-            <a class="social-link" href={resumePdf} target="_blank" rel="noopener" aria-label="CV"><Icon name="file" /></a>
+            <a class="social-link" href={resumePdfHref} download="Matthew-Skinner-resume.pdf" aria-label="Download resume PDF"><Icon name="file" /></a>
           </div>
         </div>
         <div class="mx-auto w-full max-w-[18rem] sm:max-w-sm" data-reveal>
-          <div class="card hero-frame p-4">
-            <img src={heroImage} alt="Portrait of Matthew Skinner" class="h-auto w-full rounded-lg" width="720" height="720" loading="eager" fetchpriority="high" decoding="async" />
+          <div class="card hero-frame rounded-full p-4">
+            <img src={heroImage} alt="Portrait of Matthew Skinner" class="h-auto w-full rounded-full" width="720" height="720" loading="eager" fetchpriority="high" decoding="async" />
           </div>
         </div>
       </div>
@@ -71,6 +75,17 @@ import {
       </div>
     </section>
 
+    <section id="mh-ai-vision" class="section-shell section-separator">
+      <h2 class="section-title" data-reveal>AI Vision</h2>
+      <div class="mx-auto max-w-3xl space-y-4" data-reveal>
+        {
+          aiVision.map((paragraph) => (
+            <p class="lead-copy">{paragraph}</p>
+          ))
+        }
+      </div>
+    </section>
+
     <section class="section-shell section-separator">
       <h2 class="section-title" data-reveal>What I Do</h2>
       <div class="grid gap-4 md:grid-cols-3 md:gap-6">
@@ -85,8 +100,53 @@ import {
       </div>
     </section>
 
+    <section id="mh-leadership" class="section-shell section-separator">
+      <h2 class="section-title" data-reveal>How I Lead</h2>
+      <div class="grid gap-4 md:grid-cols-2 md:gap-6">
+        {
+          leadershipPrinciples.map((principle) => (
+            <article class="card space-y-2" data-reveal>
+              <h3 class="text-lg font-semibold">{principle.title}</h3>
+              <p class="lead-copy">{principle.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="mh-expertise" class="section-shell section-separator">
+      <h2 class="section-title" data-reveal>Technical Expertise</h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4 md:gap-6">
+        {
+          technicalExpertise.map((group) => (
+            <article class="card space-y-3" data-reveal>
+              <h3 class="text-lg font-semibold text-primary">{group.category}</h3>
+              <ul class="space-y-1 text-sm text-muted">
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
     <section id="mh-experience" class="section-shell section-separator">
-      <div class="grid gap-6 md:grid-cols-2 md:gap-8">
+      <div class="space-y-6">
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold md:text-4xl" data-reveal>Work Experience</h2>
+          {
+            experience.map((item) => (
+              <article class="card resume-card space-y-1" data-reveal>
+                <h3 class="text-lg font-semibold">{item.role}</h3>
+                <p class="text-primary">{item.company}</p>
+                <p class="text-sm text-muted">{item.period}</p>
+                <p class="lead-copy">{item.summary}</p>
+              </article>
+            ))
+          }
+        </div>
         <div class="space-y-4">
           <h2 class="text-3xl font-bold" data-reveal>Education</h2>
           {
@@ -101,55 +161,20 @@ import {
           }
         </div>
         <div class="space-y-4">
-          <h2 class="text-3xl font-bold md:text-4xl" data-reveal>Work Experience</h2>
-          {
-            experience.map((item) => (
-              <article class="card resume-card space-y-1" data-reveal>
-                <h3 class="text-lg font-semibold">{item.role}</h3>
-                <p class="text-primary">{item.company}</p>
-                <p class="text-sm text-muted">{item.period}</p>
-                <p class="lead-copy">{item.summary}</p>
-              </article>
-            ))
-          }
+          <h2 class="text-3xl font-bold" data-reveal>Recognition & Community</h2>
+          <div class="card resume-card space-y-2" data-reveal>
+            <ul class="list-disc pl-5 space-y-1">
+              {recognition.map((item) => (
+                <li class="lead-copy">{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section-shell section-separator">
-      <h2 class="section-title" data-reveal>Continued Learning</h2>
-      <div class="grid gap-4 md:grid-cols-3 md:gap-6">
-        {
-          certifications.map((item) => (
-            <article class="card space-y-3" data-reveal>
-              <h3 class="text-lg font-semibold">{item.title}</h3>
-              <p class="lead-copy">{item.summary}</p>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <footer id="mh-contact" class="section-shell py-14 md:py-16">
-      <h2 class="section-title" data-reveal>Contact Me</h2>
-      <div class="grid gap-4 md:grid-cols-3 md:gap-6">
-        <article class="card space-y-2" data-reveal>
-          <Icon name="map" class="h-5 w-5 text-primary" />
-          <h3 class="text-lg font-semibold">Location</h3>
-          <p class="lead-copy">Nashville, Tennessee</p>
-        </article>
-        <article class="card space-y-2" data-reveal>
-          <Icon name="mail" class="h-5 w-5 text-primary" />
-          <h3 class="text-lg font-semibold">Email</h3>
-          <a href={`mailto:${profile.email}`} class="text-muted hover:text-primary">{profile.email}</a>
-        </article>
-        <article class="card space-y-2" data-reveal>
-          <Icon name="phone" class="h-5 w-5 text-primary" />
-          <h3 class="text-lg font-semibold">Phone</h3>
-          <a href="tel:+16156749177" class="text-muted hover:text-primary">{profile.phone}</a>
-        </article>
-      </div>
-      <div class="mt-8 flex items-center justify-center gap-4 text-sm text-muted md:mt-10">
+    <footer class="section-shell py-14 md:py-16">
+      <div class="flex items-center justify-center gap-4 text-sm text-muted">
         <a class="social-link" href="mailto:mshskinner@gmail.com" aria-label="Email"><Icon name="mail" /></a>
         <a class="social-link" href="https://www.linkedin.com/in/skinner1985/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" /></a>
         <a class="social-link" href="https://github.com/lord-skinner" target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" /></a>

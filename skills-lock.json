@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "kibana-streams": {
+      "source": "elastic/agent-skills",
+      "sourceType": "github",
+      "computedHash": "7b7319c348e8bea202b24e6accacfe8c307328d7f286b13368e74b62f07a1e3d"
+    },
+    "observability-llm-obs": {
+      "source": "elastic/agent-skills",
+      "sourceType": "github",
+      "computedHash": "a8fb50984d788fa2eceb4af0aad5366978e96ef505b3ae2fa49c2c75095466aa"
+    }
+  }
+}
