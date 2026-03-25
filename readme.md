@@ -15,15 +15,19 @@ This project has been migrated to an Astro + TypeScript + Tailwind foundation wh
 - Static/media assets used by pages/components are imported from `src/assets/`
 - Current in-use assets:
 	- `src/assets/images/`
-	- `src/assets/files/mss.pdf`
+	- `src/assets/files/resume.tex` — source for the downloadable PDF
+	- `public/resume.pdf` — **generated** at build time (not committed); `npm run build` runs `scripts/build-resume-pdf.sh` first
 
 This project no longer relies on root-level `images/` or `files/` folders.
 
 ## Local Development
 ```bash
 npm install
+npm run build:resume   # optional first time: needs xelatex so the resume download link works in dev
 npm run dev
 ```
+
+TeX Live must include `xelatex` and packages used by `resume.tex` (e.g. MacTeX on macOS, or `texlive-xetex texlive-latex-extra texlive-fonts-extra` on Linux). If `xelatex` is missing but Docker is available, `scripts/build-resume-pdf.sh` uses the `blang/latex` image (override with `TEXLIVE_IMAGE`). GitHub Actions installs TeX via `apt` before `npm run build`, so CI does not use Docker.
 
 ## Production Build
 ```bash
@@ -37,7 +41,7 @@ Deployment is handled by GitHub Actions with GitHub Pages.
 
 Workflow: `.github/workflows/deploy.yml`
 - Trigger: push to `main` (and manual `workflow_dispatch`)
-- Build: install dependencies and run `npm run build`
+- Build: install dependencies, install TeX Live (`xelatex`), run `npm run build` (compiles `resume.tex` → `public/resume.pdf`, then Astro)
 - Publish: upload `dist/` and deploy with `actions/deploy-pages`
 - Custom domain: CI sets `GITHUB_PAGES_CUSTOM_DOMAIN=skinnerdev.com` so generated URLs use root paths (`/`) instead of `/<repo>/`
 

@@ -41,14 +41,14 @@ export const profile = {
   location: "Nashville, TN",
   about: [
     "I'm Skinner. I've been building things with computers for over 20 years — starting in my grandfather's garage, soldering wires onto microcontroller buses and pushing code down to them. That hands-on instinct stuck. Before coming back to tech, I ran a web development business for a decade, then spent four years in freight operations and procurement — managing 200+ people, $250M in carrier contracts, and national accounts like Walmart and Costco. Those years taught me how big businesses actually work at the operational level.",
-    "At Elastic, I lead Cloud Engineering and Data Engineering — two teams, five people, working across the company. I helped design the data architecture for ElasticGPT, our internal AI assistant (2,100+ users, 63 hours saved per employee per year). Right now I'm implementing Apache Iceberg as our data lakehouse foundation and shipping ML into the business — cash forecasting for AR and enabling Sales and Marketing to deploy their own models via BigQuery ML. I manage $1.3M/yr in cloud spend across three CSPs and a vendor portfolio that includes Snowflake, SAP, Fabric, Tableau, and Alteryx.",
+    "Today I lead Cloud Engineering and Data Engineering — two teams, five people — at a global public SaaS company, working across the organization. I helped shape the data architecture behind an internal gen-AI assistant adopted at scale, with measured productivity impact per employee. I'm implementing Apache Iceberg as our data lakehouse foundation and shipping ML into the business — cash forecasting for accounts receivable and self-serve modeling for Sales and Marketing via BigQuery ML. I manage $1.3M/yr in cloud spend across three CSPs and a vendor portfolio that includes Snowflake, SAP, Fabric, Tableau, and Alteryx.",
     "What I care about: taking AI from demo to production. Safe, predictable systems that people trust and use every day — not science projects. The best AI work starts with understanding how the business actually runs, then building the thing and measuring what changed.",
   ],
 };
 
 export const aiVision: string[] = [
   "AI is only useful when it ships and people use it. The gap between a promising prototype and a production service that thousands of people rely on daily is where most AI initiatives fail. That gap is an engineering and change management problem, not a research problem.",
-  "I focus on closing that gap. At Elastic, that meant designing the architecture for ElasticGPT, then driving adoption until it hit 2,100+ users and 125K+ chats. It meant designing systems with guardrails that prevent hallucinations and enforce predictable behavior. And it meant sitting with teams across departments to understand their actual workflows before writing a single line of code.",
+  "I focus on closing that gap. On our internal gen-AI program, that meant designing architecture and operating model together: guardrails that rein in hallucinations and keep behavior predictable, evaluation as usage grew, and sitting with teams across departments to understand real workflows before automating them — not after.",
   "Most enterprise processes were designed around humans doing repetitive work. The tooling has finally caught up. Agentic AI, workflow orchestration, and evaluation frameworks let you automate and augment work that wasn't feasible even two years ago. The teams that move fast and stay disciplined are the ones that pull ahead.",
 ];
 
@@ -59,11 +59,11 @@ export const leadershipPrinciples: LeadershipPrinciple[] = [
   },
   {
     title: "Measure what changed",
-    description: "Every initiative needs a number attached to it. ElasticGPT wasn't a success because it was cool — it was a success because we could point to 63 hours saved per employee per year and a 92% jump in daily active users.",
+    description: "Every initiative needs a number attached. Our internal gen-AI rollout succeeded because we could tie it to hours saved per employee per year and a steep climb in daily active use — not because the demo was flashy.",
   },
   {
     title: "Ship incrementally",
-    description: "Big bang launches fail. I run pilots, collect feedback, iterate, and scale what works. ElasticGPT started with one team before it reached two-thirds of the company.",
+    description: "Big bang launches fail. I run pilots, collect feedback, iterate, and scale what works. The program started with one team before expanding company-wide.",
   },
   {
     title: "Make it safe to adopt",
@@ -77,6 +77,8 @@ export const technicalExpertise: ExpertiseCategory[] = [
     items: [
       "Agentic AI & LLM Orchestration",
       "Generative AI / Chatbot Systems",
+      "RAG & Context Engineering",
+      "LLM Evaluation & Quality Frameworks",
       "Reinforcement Learning",
       "Model Fine-Tuning & Hosting",
       "Inference Optimization",
@@ -101,6 +103,7 @@ export const technicalExpertise: ExpertiseCategory[] = [
       "Elasticsearch",
       "Kafka / Flink (Streaming)",
       "Spark / Trino (Batch & Interactive)",
+      "Apache Iceberg / Lakehouse Patterns",
       "Data Architecture & Modeling",
       "Data Engineering Pipelines",
     ],
@@ -123,6 +126,8 @@ export const skills: string[] = [
   "Agentic AI",
   "Generative AI",
   "LLM Orchestration",
+  "RAG",
+  "LLM Evaluation",
   "Reinforcement Learning",
   "Model Fine-Tuning",
   "Inference Optimization",
@@ -155,12 +160,12 @@ export const services: Service[] = [
   {
     title: "AI Strategy & Delivery",
     description:
-      "I find the places where AI actually helps — not every problem is an AI problem. I dig into how teams work, figure out what's worth automating, design the architecture, and measure what changed. ElasticGPT started this way: one workflow problem, one pilot team, then 2,100+ users company-wide.",
+      "I find the places where AI actually helps — not every problem is an AI problem. I dig into how teams work, figure out what's worth automating, design the architecture, and measure what changed. Our internal assistant started as one workflow pilot, then scaled to company-wide adoption with tracked outcomes.",
   },
   {
     title: "Engineering Leadership",
     description:
-      "I run two teams at Elastic covering cloud and data engineering. I hire, coach, and ship alongside my team. I've led change management for AI, data analytics, and ML adoption — the hard part isn't building the tool, it's getting people to trust and use it.",
+      "I run cloud and data engineering teams at a public SaaS company. I hire, coach, and ship alongside my group. I've led change management for AI, analytics, and ML adoption across departments — the hard part isn't building the tool, it's getting people to trust and use it.",
   },
   {
     title: "AI Infrastructure & Operations",
@@ -196,13 +201,14 @@ export const experience: Experience[] = [
     role: "Senior Manager, Data Engineering & Architecture",
     company: "Elastic, Inc.",
     period: "May 2022 - Present",
-    summary: "Lead Cloud Engineering and Data Engineering teams (5 reports, cross-functional). Helped design the software and data architecture for ElasticGPT — internal AI assistant with 2,100+ users, 125K+ chats, 400K+ interactions, saving 63 hrs/employee/year (92% DAU increase). Implemented Spark, cutting data processing compute by 270%. Migrated NetSuite from 2,200 objects to 60, enabling SOX-compliant real-time financial reporting and AI-ready data. Manage $1.3M/yr cloud spend and vendor relationships across Snowflake, SAP, Microsoft Fabric, Tableau, Alteryx, and all three major CSPs. Built ML models, ran RL experiments, fine-tuned and hosted models on internal infrastructure. Led change management for AI, data analytics, and ML adoption across departments.",
+    summary:
+      "Lead Cloud Engineering and Data Engineering teams (5 reports, cross-functional). Partner with product, security, and business stakeholders on enterprise AI and data initiatives. Helped design the software, data architecture, and deployment strategy for ElasticGPT — internal AI assistant with 2,100+ users, 125K+ chats, 400K+ interactions, saving 63 hrs/employee/year (92% DAU increase). Introduced Apache Iceberg as the lakehouse foundation for analytics and ML. Shipped ML into operations: AR cash forecasting and self-serve models for Sales and Marketing (BigQuery ML). Implemented Spark, reducing data processing compute cost by ~70%. Migrated NetSuite from 2,200 objects to 60, enabling SOX-compliant real-time financial reporting and AI-ready data. Led change management for AI, data analytics, and ML adoption across departments.",
   },
   {
     role: "Data Analytics Architect",
     company: "Pluralsight, Inc.",
     period: "Apr 2021 - May 2022",
-    summary: "Designed enterprise cloud architecture for insights, data engineering, data science, and ML teams. Migrated ML pipelines from batch SageMaker jobs to real-time Kafka-based prediction serving. Managed $30M/yr cloud spend across AWS, SageMaker, and Snowflake.",
+    summary: "Designed enterprise cloud architecture for insights, data engineering, data science, and ML teams. Migrated ML pipelines from batch SageMaker jobs to real-time Kafka-based prediction serving. Managed $3.2M/yr cloud spend across AWS, SageMaker, and Snowflake.",
   },
   {
     role: "Principal, Data & Integration Architect",
@@ -232,7 +238,7 @@ export const experience: Experience[] = [
     role: "Owner",
     company: "SkinnerDev.com",
     period: "Aug 2002 - Dec 2012",
-    summary: "Ran a web and mobile development shop for 10 years — 185 customers, $3M annual revenue, team of 10. Shipped Android and iOS apps in 2009 with receipt-photo-to-ERP expense parsing — delivering OCR-style functionality years before it was enterprise-ready. Full stack: design, code, deploy, support. Built the business from scratch.",
+    summary: "Ran a web and mobile development shop for 10 years — 185 customers, $3M annual revenue, team of 10. Shipped Android 2.2 and iOS 3 apps in 2010 with on device receipt-photo-to-ERP expense parsing — delivering on-device OCR-style functionality years before it was enterprise-ready. Full stack: design, code, deploy, support. Built the business from scratch.",
   },
 ];
 
