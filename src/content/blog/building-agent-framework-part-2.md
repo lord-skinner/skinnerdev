@@ -30,6 +30,24 @@ Without MaaS, AgentEngine would need to:
 
 That is a lot of cross-cutting concern leaking into agent logic. MaaS pushes all of it into a dedicated service. AgentEngine connects to one endpoint and gets a clean, pre-filtered list of tools, prompts, and resources — the same separation of concerns Part 1 described for the two-service layout.
 
+A request-scoped view (compare the Part 1 diagram) centers MaaS between AgentEngine and every upstream:
+
+```mermaid
+flowchart TD
+    AE["AgentEngine\n(PydanticAI)"]
+    MaaS["MaaS\n(FastMCP create_proxy)"]
+    dbt["dbt MCP"]
+    gh["GitHub MCP"]
+    atlan["Atlan MCP"]
+    skills["SkillsDirectoryProvider\n(git-backed SKILL.md)"]
+
+    AE -->|"Single endpoint\nlist_tools / call_tool"| MaaS
+    MaaS --> dbt
+    MaaS --> gh
+    MaaS --> atlan
+    MaaS --> skills
+```
+
 ## FastMCP Proxy Architecture
 
 FastMCP’s `create_proxy` accepts a configuration dictionary (the same `mcpServers` shape used elsewhere in the MCP ecosystem) and returns one MCP server that proxies tools, resources, and prompts from all upstreams — with **component prefixing** so names stay unambiguous (`dbt_*`, `github_*`, …). You can also point `create_proxy` at a single URL; multi-server configs are the aggregation pattern we use here.
@@ -99,6 +117,16 @@ This gives product and platform teams a single channel to publish instructions t
 ## Tool filtering with transforms
 
 FastMCP applies **transforms** to the component catalog: they sit in the pipeline between providers and clients and can filter or enrich what `list_tools` returns. In MaaS, **`TagBasedGroupTransform`** and **`RoleBasedAccessTransform`** (in `transforms.py`, backed by **`tool_groups.yaml`**) are **registered in production** so `list_tools` reflects role-scoped visibility. In test or scratch environments we may omit them briefly to see every proxied tool without policy — the sections below describe the live behavior: first **tag**, then **filter**.
+
+```mermaid
+flowchart LR
+    CAT["Aggregated catalog\n(prefixed tool names)"]
+    TAG["TagBasedGroupTransform\nfnmatch → group tags"]
+    RBAC["RoleBasedAccessTransform\nrole → allowed groups"]
+    OUT["list_tools to client"]
+
+    CAT --> TAG --> RBAC --> OUT
+```
 
 ### Step 1: Tag Tools with Group Metadata
 
@@ -219,6 +247,20 @@ Ungrouped tools — tools that don't match any pattern in `tool_groups.yaml` —
 ## Helper tools: bridging MCP primitives
 
 The Model Context Protocol surfaces **tools**, **resources**, **prompts**, and **resource templates** (parameterized resource URIs). Many clients only call tools first-class. MaaS bridges the gap by exposing resources, prompts, and templates as callable tools so the LLM can reach them through the same mechanism.
+
+```mermaid
+flowchart LR
+    RES["Resources\n(skill:// …)"]
+    PRM["Prompts"]
+    TPL["Resource templates\n(RFC 6570)"]
+    H["Helper tools\nget_resource, get_prompt, …"]
+    LLM["Model via tool calls"]
+
+    RES --> H
+    PRM --> H
+    TPL --> H
+    H --> LLM
+```
 
 Helper tools use a short-lived **`MCPServerStreamableHTTP`** client pointed at **this same MaaS process** (`HOST` / `PORT`, with a request **timeout**), so they read the already-aggregated catalog — not each upstream directly. Before calling into the client, the implementation checks **`client.capabilities.resources`** / **`client.capabilities.prompts`** and fails fast with a clear error if the server did not advertise that capability.
 

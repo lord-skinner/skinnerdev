@@ -1,6 +1,6 @@
 ---
 title: "Building an Agent Framework: Production Patterns"
-description: "Part 3 of the series — privacy-preserving history processors, context budget management, structured logging, OpenTelemetry tracing, and usage metrics."
+description: "Part 3 — privacy-preserving history processors, context budget management, structured logging, OpenTelemetry tracing, usage metrics in Elasticsearch, and graceful degradation."
 date: 2026-03-31
 tags:
   - agents
@@ -13,9 +13,31 @@ seriesPart: 3
 draft: true
 ---
 
-[Part 1](/blog/building-agent-framework-part-1/) covered the architecture and Elasticsearch-backed memory. [Part 2](/blog/building-agent-framework-part-2/) covered MaaS and tool aggregation. This final post covers the patterns that make the framework production-ready: privacy redaction, context budget management, structured logging, distributed tracing, and usage metrics.
+[Part 1](/blog/building-agent-framework-part-1/) covered the architecture, Elasticsearch-backed quad-core memory, hybrid search, and streaming SSE. [Part 2](/blog/building-agent-framework-part-2/) covered MaaS — FastMCP proxy aggregation, role-based tool filtering, and helper tools. This post closes the series with the patterns that make the framework production-ready: privacy redaction, context budget management, structured logging, distributed tracing, and usage metrics.
 
 None of these features make the agent smarter. They make it safe, observable, and cost-efficient — which matters more once the system handles real user data at scale.
+
+## Production Patterns at a Glance
+
+The same stack from earlier posts — PydanticAI on the agent side, MaaS for tools, Elasticsearch for memory and metrics — gains a cross-cutting layer:
+
+- **History processors** — Run before every model call: redact PII, then trim or summarize so context stays within budget.
+- **Structured logging** — JSON to stdout (or console for local dev) with request-scoped context, separate from model-facing redaction.
+- **Tracing** — OpenTelemetry instruments FastAPI when an OTLP endpoint is configured; otherwise tracing is a no-op.
+- **Usage metrics** — Each execution writes a document to an Elasticsearch data stream for cost and performance analysis.
+- **Graceful degradation** — Memory, hybrid search, summarization, OTLP export, and metrics indexing fail soft so the agent still answers.
+
+The history pipeline looks like this:
+
+```mermaid
+flowchart TD
+    H["Conversation history"]
+    PR["privacy_history_processor\n(PII → redacted)"]
+    CB["context_budget_processor\n(trim / summarize)"]
+    M["Model call"]
+
+    H --> PR --> CB --> M
+```
 
 ## Privacy-Preserving History Processors
 
@@ -81,6 +103,15 @@ Long conversations accumulate history fast. Every user message, every model resp
 
 The `context_budget_processor` solves this with a three-part strategy: keep system prompts, keep recent turns, summarize the middle.
 
+```mermaid
+flowchart LR
+    SYS["System prompts\nalways kept"]
+    MID["Middle zone\nsummarized when over budget"]
+    REC["Last N turns\nalways kept"]
+
+    SYS --> MID --> REC
+```
+
 ```python
 HISTORY_TOKEN_BUDGET = 2000
 HISTORY_KEEP_LAST = 10
@@ -123,7 +154,7 @@ async def context_budget_processor(
     )
     summary_message = ModelRequest(parts=[summary_part])
 
-    # Reconstruct: system prompts → summary → last N turns
+    # Reconstruct: system prompts → summary block → messages from last_start onward
     new_history: list[ModelRequest | ModelResponse] = []
     for index, message in enumerate(history):
         if index in system_indexes:
@@ -135,11 +166,13 @@ async def context_budget_processor(
     return new_history
 ```
 
+The reconstruction loop walks the original message list once: it appends each preserved system message when encountered, injects the single summary `ModelRequest` at the start of the recent window, then appends every message from `last_start` through the end (so the last `N` turns appear in order after the summary).
+
 The logic breaks history into three zones:
 
-1. **System prompts** — Always preserved, regardless of position. These contain the agent's instructions and cannot be lost.
-2. **Last 10 turns** — The most recent conversation context. These are the messages most likely to be relevant to the current task.
-3. **Middle zone** — Everything between system prompts and the last 10 turns. This gets collapsed into a single summary message.
+1. **System prompts** (indices before the recent window) — Kept explicitly so core instructions are not folded into the summary block.
+2. **Last `HISTORY_KEEP_LAST` turns** — The recent window; kept verbatim because it is most likely relevant to the current task.
+3. **Middle zone** — Messages that are neither in the kept system set nor in the recent window; collapsed into one summary `ModelRequest` when over budget.
 
 The summarization path is interesting. When Elasticsearch memory is available, the processor calls `summarize_text()`, which uses a configured completion model (Gemini Flash via Elasticsearch's inference API) to produce a concise summary. When memory is not available, it falls back to simple character truncation. Either way, the middle zone collapses to a fraction of its original size.
 
@@ -218,7 +251,19 @@ The sanitization functions (`sanitize_tool_args`, `sanitize_response`) are used 
 
 ## OpenTelemetry & Request Tracing
 
-The framework uses OpenTelemetry for distributed tracing with automatic FastAPI instrumentation:
+The framework uses OpenTelemetry for distributed tracing with automatic FastAPI instrumentation. Spans, structured logs, and usage documents (below) all attach to the same request lifecycle — complementary to Part 1’s SSE stream, where `tool_call` and `tool_return` payloads are sanitized before they reach the client.
+
+```mermaid
+flowchart TD
+    REQ["HTTP request"]
+    SPAN["Spans\n(FastAPIInstrumentor)"]
+    LOG["Structured logs\n(structlog + request_id)"]
+    MET["Usage document\n(Elasticsearch)"]
+
+    REQ --> SPAN
+    REQ --> LOG
+    REQ --> MET
+```
 
 ```python
 from opentelemetry import trace
