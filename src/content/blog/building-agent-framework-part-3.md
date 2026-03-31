@@ -4,13 +4,15 @@ description: "Part 3 — privacy-preserving history processors, context budget m
 date: 2026-03-31
 tags:
   - agents
+  - elasticsearch
   - observability
   - opentelemetry
+  - pydantic-ai
   - python
   - production
 series: "agent-framework"
 seriesPart: 3
-draft: true
+draft: false
 ---
 
 [Part 1](/blog/building-agent-framework-part-1/) covered the architecture, Elasticsearch-backed quad-core memory, hybrid search, and streaming SSE. [Part 2](/blog/building-agent-framework-part-2/) covered MaaS — FastMCP proxy aggregation, role-based tool filtering, and helper tools. This post closes the series with the patterns that make the framework production-ready: privacy redaction, context budget management, structured logging, distributed tracing, and usage metrics.
@@ -109,7 +111,7 @@ flowchart LR
     MID["Middle zone\nsummarized when over budget"]
     REC["Last N turns\nalways kept"]
 
-    SYS --> MID --> REC
+    SYS -.->|"older"| MID -.->|"newer"| REC
 ```
 
 ```python
