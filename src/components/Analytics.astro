@@ -1,0 +1,23 @@
+---
+/**
+ * Google Analytics 4 for static hosting (e.g. GitHub Pages).
+ * Set PUBLIC_GA_MEASUREMENT_ID at build time; omit to disable.
+ */
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim();
+---
+
+{
+  gaMeasurementId && (
+    <>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
+      <script is:inline define:vars={{ gaMeasurementId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", gaMeasurementId);
+      </script>
+    </>
+  )
+}
