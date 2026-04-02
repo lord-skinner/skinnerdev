@@ -1,8 +1,8 @@
 ---
-title: "What, What?? Wednesday's: AgentFS — Your AI Agent's Filing Cabinet"
+title: "Wait, What?? Wednesday's: AgentFS — Your AI Agent's Filing Cabinet"
 description: "One file holds your AI's fake folders, its memory, and a play-by-play of every tool it used. It's not magic — it's a very old trick, finally aimed at chatbots."
 date: 2026-04-01
-series: "What, What?? Wednesday's"
+series: "Wait, What?? Wednesday's"
 tags:
   - agents
   - harnesses
