@@ -1,7 +1,7 @@
 ---
 title: "Wait, What?? Weekend Edition: Gemma 4 — Google's Open Model Finally Grew Up"
 description: "Four sizes, a 256K context window, video and audio understanding, and math that went from failing to near-perfect. And you can run the small ones on a Raspberry Pi."
-date: 2026-04-04
+date: 2026-04-15
 series: "Wait, What?? Wednesday's"
 tags:
   - models
