@@ -1,14 +1,14 @@
 ---
 title: "Wait, What?? Weekend Edition: Gemma 4 — Google's Open Model Finally Grew Up"
 description: "Four sizes, a 256K context window, video and audio understanding, and math that went from failing to near-perfect. And you can run the small ones on a Raspberry Pi."
-date: 2026-04-15
+date: 2026-04-11
 series: "Wait, What?? Wednesday's"
 tags:
   - models
   - open-source
   - edge-ai
   - multimodal
-draft: true
+draft: false
 ---
 
 Google dropped **Gemma 4** — four open models ranging from a tiny edge-friendly chip to a full-size reasoning beast. The headline: math went from 20% to 89%, it understands images, video, and audio natively, and the whole family ships under a clean Apache 2.0 license. No gotcha clauses.
