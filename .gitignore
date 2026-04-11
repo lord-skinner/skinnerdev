@@ -3,9 +3,6 @@ dist/
 .astro/
 .DS_Store
 
-# Generated from src/assets/files/resume.tex at build time
-public/resume.pdf
-
 # LaTeX intermediates if xelatex is run manually in src/assets/files
 src/assets/files/resume.aux
 src/assets/files/resume.log
