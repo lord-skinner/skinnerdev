@@ -42,13 +42,29 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check if resume changed
+        id: resume-check
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          elif git diff --name-only HEAD^ HEAD -- src/assets/files/resume.tex 2>/dev/null | grep -q .; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Install TeX Live (for resume PDF)
+        if: steps.resume-check.outputs.changed == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-xetex texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra
 
+      - name: Build resume PDF
+        if: steps.resume-check.outputs.changed == 'true'
+        run: npm run build:resume
+
       - name: Build site
-        run: npm run build
+        run: npx astro build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
